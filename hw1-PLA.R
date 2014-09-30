@@ -8,8 +8,11 @@ data.generate = function(n = 10, ext = 1){
 	x2 = runif(n, -ext, ext)
 	
 	# Draw a random line in the area.
-	slope = runif(1)
-	intercept = runif(1, -ext, ext)
+	point = runif(2, -ext, ext)
+	slope = tan(runif(1, 0, 2 * pi))
+	intercept = point[2] - slope * point[1]
+		###slope = runif(1)
+		###intercept = runif(1, -ext, ext)
 	
 	# Assign the dependent values.
 	y = as.numeric(x1 * slope + intercept > x2) * 2 - 1
