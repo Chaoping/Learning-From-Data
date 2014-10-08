@@ -9,10 +9,9 @@ data.generate = function(n = 10, ext = 1){
 	
 	# Draw a random line in the area.
 	point = runif(2, -ext, ext)
-	slope = tan(runif(1, 0, 2 * pi))
+	point2 = runif(2, -ext, ext)
+	slope = (point2[2] - point[2]) / (point2[1] - point[1])
 	intercept = point[2] - slope * point[1]
-		### DELETED ### slope = runif(1)
-		### DELETED ### intercept = runif(1, -ext, ext)
 	
 	# Assign the dependent values.
 	y = as.numeric(x1 * slope + intercept > x2) * 2 - 1
