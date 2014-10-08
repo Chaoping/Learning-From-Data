@@ -26,17 +26,24 @@ PLA = function(generated, max.iter = 10000){
 	X = as.matrix(cbind(1, generated$data[c(1,2)]))
 	w = c(0,0,0)
 	counter = 0
+	
+	# Iterate to update the weights until converge.
 	while(sum(sign(X %*% w) == generated$data$y) != nrow(X)){
 		idx = sample(which(sign(X %*% w) !=generated$data$y),1)
 		w = w + generated$data$y[idx] * X[idx,]
 		counter = counter + 1
+		
+		# Break the loop if it fails to converge.
 		if(counter >= max.iter) break()
 	}
-	return(list(w = w, counter = counter))
+	
+	# Return the weights as well as the number of iterations.
+	return(list(w = w, counter = counter)) 
 }
 
 ## Decision Boundary
 d.b = function(w){
+	# Find two points on the desision boundary.
 	dbx = runif(2, -1, 1)
 	dby = (-w[1]-w[2]*dbx) / w[3]
 	db.slope = (dby[2] - dby[1])/(dbx[2] - dbx[1])
@@ -44,11 +51,13 @@ d.b = function(w){
 	return(list(db.slope = db.slope, db.intercept = db.intercept))
 }
 
-## Out-of-sample error rate
+## Out-of-sample error rate. The probability a point is misclassified is equal to the area between the separate line and the decision boundary.
 disagree = function(intercept, slope, db.intercept, db.slope, ext = 1, accuracy.level = 2){
 	accuracy = 10 ^ accuracy.level
 	x1 = x2 = 0:(accuracy) * 2 * ext / accuracy - ext
 	disagreement = 0
+	
+	# Check every point to approximate the area between the 2 lines
 	for(i in x1){
 	 for(j in x2){
 		if((i * slope + intercept > j & i * db.slope + db.intercept <= j)|(i * slope + intercept <= j & i * db.slope + db.intercept > j)) disagreement = disagreement + 1
