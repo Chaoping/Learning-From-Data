@@ -19,7 +19,11 @@ Omega = function(dvc, N, delta = 0.05, bound = "VC"){
 	}else if(bound == "Parrondo"){
 		return(sqrt(1/N*log(6*growth(dvc, 2 * N)/delta)+1/N^2)+1/N)
 	}else if(bound == "Devroye"){
-		return(sqrt((-2*(log(4) + 2*dvc*log(N) - log(delta))+N*(log(4) + 2*dvc*log(N) - log(delta))+2)/(N-2)^2)/sqrt(2)+1/(N-2))
+		if(dvc >= N){
+			return(sqrt((-2*(log(4) + N^2*log(2) - log(delta))+N*(log(4) + N^2*log(2) - log(delta))+2)/(N-2)^2)/sqrt(2)+1/(N-2))
+		} else {
+			return(sqrt((-2*(log(4) + 2*dvc*log(N) - log(delta))+N*(log(4) + 2*dvc*log(N) - log(delta))+2)/(N-2)^2)/sqrt(2)+1/(N-2))
+		}
 	}else {
 		stop("Invalid bound type. Supported types are \"VC\", \"RP\", \"Parrando\" and \"Devroye\".")
 	}
