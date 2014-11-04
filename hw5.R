@@ -13,15 +13,16 @@ p5_7 = function(u = 1, v = 1 ,eta = 0.1, goal = 1e-14, max.iter = 0, method){
 			iter.count = iter.count + 1
 			if(iter.count >= max.iter & max.iter != 0) break()
 			}
-		} else if(method == "CD"){
-			while(E_u_v() >= goal){
+	} else if(method == "CD"){
+		while(E_u_v() >= goal){
 			u = u - eta*gradient_u()
 			v = v - eta*gradient_v()
 			iter.count = iter.count + 1
 			if(iter.count >= max.iter & max.iter != 0) break()
 			}
-		} else {
-		}
+	} else {
+		stop("Invalid method.")
+	}
 	return(list(u = u, v = v, iter.count = iter.count, E.u.v = E_u_v()))
 }
 
