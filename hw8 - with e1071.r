@@ -80,6 +80,7 @@ CV = function(A, B, Cset, k, runs = 100){
 	y = as.integer(train.y)
 	X = train.X
 	N = length(y)
+	require(e1071)
 	E.cv.all.runs = matrix(0, runs, length(Cset))
 	for(i in 1:runs){
 		shuffle = sample(N)
@@ -97,7 +98,7 @@ CV = function(A, B, Cset, k, runs = 100){
 				model = svm(x = X.minus, y = y.minus, kernel = "polynomial", degree = 2, cost = Cset[C.index], coef0 = 1, gamma = 1,scale = FALSE, type = "C-classification")
 				E.cv.fold[C.index] = sum(predict(model, newdata = X.val) != y.val)/length(y.val)
 			}
-			E.cv[k,] = E.cv.fold	
+			E.cv[fold,] = E.cv.fold	
 		}
 		E.cv.all.runs[i,] = colMeans(E.cv)
 	}
